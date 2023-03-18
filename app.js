@@ -14,6 +14,9 @@ const jobsRouter = require('./routes/jobs');
 // connect DB
 const connectDB = require('./db/connect');
 
+//public
+app.use(express.static('./public'));
+
 // middleware
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
@@ -37,14 +40,19 @@ app.use(xss());
 
 // routes
 app.get('/', (req, res) => {
-  res.send('jobs api');
+  res.send(index);
+});
+app.get('/api/v1/auth/register', (req, res) => {
+  res.send(register);
+});
+app.get('/api/v1/auth/login', (req, res) => {
+  res.send(login);
 });
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authMiddleware, jobsRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
-
 // start server
 const port = process.env.PORT || 5000;
 
